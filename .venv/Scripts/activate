@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Msii\Documents\Aladia\etl-pipeline\Aladia-etl-pipeline\.venv"
+VIRTUAL_ENV="C:\Users\Msii\Documents\Aladia\etl-pipeline\ETL-Pipeline\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

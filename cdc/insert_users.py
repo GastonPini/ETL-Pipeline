@@ -8,8 +8,9 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 
 load_dotenv()
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-client = MongoClient(MONGO_URI)
+#MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+#client = MongoClient(MONGO_URI)
+client = MongoClient("mongodb://localhost:27017/?replicaSet=rs0")
 db = client.get_database("aladia_db")
 coll = db.get_collection("users")
 

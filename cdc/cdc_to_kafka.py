@@ -6,6 +6,7 @@ import time
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from kafka import KafkaProducer
+from bson import ObjectId, Timestamp
 
 load_dotenv()
 
@@ -13,9 +14,18 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 KAFKA_BOOTSTRAP = os.getenv("KAFKA_BOOTSTRAP", "localhost:9092")
 TOPIC = os.getenv("KAFKA_TOPIC", "cdc.users")
 
+# ✅ Fix: ObjectId & Timestamp serialization
+class EnhancedJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        if isinstance(o, Timestamp):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 producer = KafkaProducer(
     bootstrap_servers=KAFKA_BOOTSTRAP,
-    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+    value_serializer=lambda v: json.dumps(v, cls=EnhancedJSONEncoder).encode("utf-8"),
     linger_ms=10
 )
 
@@ -31,9 +41,10 @@ def format_change(change):
     return envelope
 
 def main():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient("mongodb://localhost:27017/?replicaSet=rs0")
     db = client.get_database("aladia_db")
     coll = db.get_collection("users")
+
     print(f"[CDC] Watching collection {db.name}.users -> Kafka {TOPIC} @ {KAFKA_BOOTSTRAP}")
 
     with coll.watch(full_document='updateLookup') as stream:
