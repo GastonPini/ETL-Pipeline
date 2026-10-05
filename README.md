@@ -14,7 +14,7 @@ A small, end-to-end **CDC → Kafka → PySpark → Parquet** demo that implemen
 - **Processor:** PySpark Structured Streaming consuming Kafka
 - **Sink:** Parquet files (queried with DuckDB for demo)
 
-This project demonstrates architectural design, trade-offs, maintainability, and scalability reasoning.
+This project demonstrates practical experience with real-time data pipelines, event-driven processing, and scalable data processing architectures.
 
 ---
 
@@ -138,3 +138,26 @@ You can run the full demo automatically:
 ```bash
 ./run.sh
 ```
+
+---
+
+### 🧰 Technologies & Concepts
+
+- Python
+- MongoDB
+- MongoDB Change Streams (CDC)
+- Apache Kafka
+- Apache Spark / PySpark Structured Streaming
+- Parquet
+- DuckDB
+- Docker & Docker Compose
+
+Key concepts demonstrated:
+
+- Change Data Capture
+- Event streaming
+- Stream processing
+- ETL pipelines
+- Distributed data processing
+- Columnar storage
+- Analytical querying
